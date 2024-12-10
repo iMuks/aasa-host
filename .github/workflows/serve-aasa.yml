@@ -1,0 +1,16 @@
+name: Serve AASA File
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Deploy with correct MIME type
+        run: |
+          mkdir -p public/.well-known
+          mv apple-app-site-association public/.well-known/
+          echo '{"http-headers": {"/.well-known/apple-app-site-association": {"Content-Type": "application/json"}}}' > public/_headers
